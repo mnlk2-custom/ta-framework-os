@@ -1,0 +1,124 @@
+*** NotificationManager.java	2010-08-12 23:52:21.318228219 +0100
+--- /home/scott/workspace/framework/patches/NotificationManager.java-v3	2010-08-12 23:51:49.129478173 +0100
+***************
+*** 23,28 ****
+--- 23,30 ----
+  import android.os.ServiceManager;
+  import android.util.Log;
+  
++ import uk.co.lilhermit.android.TAframework.TAnotification;
++ 
+  /**
+   * Class to notify the user of events that happen.  This is how you tell
+   * the user that something has happened in the background. {@more}
+***************
+*** 61,66 ****
+--- 63,70 ----
+  
+      private static INotificationManager sService;
+  
++     private TAnotification notification_store = null; // temporary storage for the whole notification
++     
+      /** @hide */
+      static public INotificationManager getService()
+      {
+***************
+*** 75,80 ****
+--- 79,85 ----
+      /*package*/ NotificationManager(Context context, Handler handler)
+      {
+          mContext = context;
++         notification_store = new TAnotification(mContext);
+      }
+  
+      /**
+***************
+*** 102,118 ****
+       */
+      public void notify(String tag, int id, Notification notification)
+      {
+!         int[] idOut = new int[1];
+!         INotificationManager service = getService();
+!         String pkg = mContext.getPackageName();
+!         if (localLOGV) Log.v(TAG, pkg + ": notify(" + id + ", " + notification + ")");
+!         try {
+!             service.enqueueNotificationWithTag(pkg, tag, id, notification, idOut);
+!             if (id != idOut[0]) {
+!                 Log.w(TAG, "notify: id corrupted: sent " + id + ", got back " + idOut[0]);
+!             }
+!         } catch (RemoteException e) {
+!         }
+      }
+  
+      /**
+--- 107,113 ----
+       */
+      public void notify(String tag, int id, Notification notification)
+      {
+! 		notification_store.queueNotify(tag, id, notification);
+      }
+  
+      /**
+***************
+*** 122,128 ****
+       */
+      public void cancel(int id)
+      {
+!         cancel(null, id);
+      }
+  
+      /**
+--- 117,123 ----
+       */
+      public void cancel(int id)
+      {
+!          cancel(null, id);
+      }
+  
+      /**
+***************
+*** 132,144 ****
+       */
+      public void cancel(String tag, int id)
+      {
+!         INotificationManager service = getService();
+!         String pkg = mContext.getPackageName();
+!         if (localLOGV) Log.v(TAG, pkg + ": cancel(" + id + ")");
+!         try {
+!             service.cancelNotificationWithTag(pkg, tag, id);
+!         } catch (RemoteException e) {
+!         }
+      }
+  
+      /**
+--- 127,133 ----
+       */
+      public void cancel(String tag, int id)
+      {
+! 		notification_store.queueCancel(tag, id);
+      }
+  
+      /**
+***************
+*** 147,159 ****
+       */
+      public void cancelAll()
+      {
+!         INotificationManager service = getService();
+!         String pkg = mContext.getPackageName();
+!         if (localLOGV) Log.v(TAG, pkg + ": cancelAll()");
+!         try {
+!             service.cancelAllNotifications(pkg);
+!         } catch (RemoteException e) {
+!         }
+      }
+  
+      private Context mContext;
+--- 136,142 ----
+       */
+      public void cancelAll()
+      {
+! 		notification_store.queueCancelAll();
+      }
+  
+      private Context mContext;
