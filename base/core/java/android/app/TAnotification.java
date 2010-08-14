@@ -12,6 +12,8 @@ import android.content.ServiceConnection;
 import android.app.INotificationManager;
 import android.app.NotificationManager;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 import uk.co.lilhermit.android.TrackballAlert.service.iTAservice;
@@ -46,16 +48,23 @@ public class TAnotification
 
 		serviceIntent = new Intent("uk.co.lilhermit.android.TrackballAlert.service.iTAservice");
 		startService();
-		
+		PackageInfo pInfo;
 		try
 		{
 			TAcontext = context.createPackageContext(ProPackageName,Context.MODE_WORLD_READABLE|Context.CONTEXT_IGNORE_SECURITY);
+			pInfo = TAcontext.getPackageManager().getPackageInfo(ProPackageName,PackageManager.GET_META_DATA);
+			if(pInfo.versionCode<10203)
+				LogE("Framework requires atleast Trackball Alert Pro v1.2.3");
 		}
 		catch (NameNotFoundException e1)
 		{  // PRO Package not found - test for Free!
 			try
 			{
 				TAcontext = context.createPackageContext(FreePackageName,Context.MODE_WORLD_READABLE|Context.CONTEXT_IGNORE_SECURITY);
+				pInfo = TAcontext.getPackageManager().getPackageInfo(FreePackageName,PackageManager.GET_META_DATA);
+				if(pInfo.versionCode<10103)
+					LogE("Framework requires atleast Trackball Alert v1.1.3");
+
 			}
 			catch (NameNotFoundException e2)
 			{
