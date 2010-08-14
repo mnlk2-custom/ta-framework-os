@@ -271,12 +271,11 @@ public class TAnotification
 
 	private void LogE(String msg) {
 		msg=String.format("[framework] %s",msg);
-		if(DEBUG())
-			android.util.Log.e(LOGTAG, msg);
+		android.util.Log.e(LOGTAG, msg);
 	}
 
 	private void LogD(String msg) {
-		msg=String.format("[service] %s",msg);
+		msg=String.format("[framework] %s",msg);
 		if(DEBUG())
 			android.util.Log.d(LOGTAG, msg);
 	}
