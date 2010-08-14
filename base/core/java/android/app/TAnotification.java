@@ -156,7 +156,12 @@ public class TAnotification
 	public void finish()
 	{
 		if(bound)
+		{
+			try {
 			mContext.unbindService(mServiceConnection);
+			}
+			catch (IllegalArgumentException e){}
+		}
 		LogV("Unbinding - "+_packagename);
 	}
 
