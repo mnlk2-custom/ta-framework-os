@@ -26,7 +26,7 @@ public class TAnotification
 	private iTAservice mTAservice = null;
 	private Context mContext;
 	Intent serviceIntent;
-	private final static int version = 8;
+	private final static int version = 20;
 	private final static String LOGTAG = "TAframework";
 	private final static int ACTION_NOTIFY 		=	0x01;
 	private final static int ACTION_CANCEL 		=	0x02;
