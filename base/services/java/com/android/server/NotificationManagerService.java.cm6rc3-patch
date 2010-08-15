@@ -1,10 +1,17 @@
 *** NotificationManagerService.java.orig	2010-08-15 14:31:27.969890036 +0100
---- NotificationManagerService.java	2010-08-15 14:36:51.509890284 +0100
+--- NotificationManagerService.java	2010-08-15 15:34:59.140834714 +0100
 ***************
-*** 1250,1263 ****
-  					Random generator = new Random();
-  					int x = generator.nextInt(colorList.length - 1);
-  					ledARGB = Color.parseColor(colorList[x]);
+*** 1243,1278 ****
+                  	ledOffMS = mDefaultNotificationLedOff;
+              	}
+  
+! 		String[] mPackageInfo = findPackage(mLedNotification.pkg);
+!                 if(mPackageInfo != null) {
+! 			if(!mPackageInfo[1].equals("none")) {
+! 				if(mPackageInfo[1].equals("random")) {
+! 					Random generator = new Random();
+! 					int x = generator.nextInt(colorList.length - 1);
+! 					ledARGB = Color.parseColor(colorList[x]);
 ! 				} else {
 ! 					ledARGB = Color.parseColor(mPackageInfo[1]);
 ! 				}
@@ -13,14 +20,31 @@
 ! 				} else {
 ! 					ledOffMS = (Integer.parseInt(mPackageInfo[2]) * 1000);
 ! 				}
-  			}
-  		}
+! 			}
+! 		}
   
---- 1250,1256 ----
-  					Random generator = new Random();
-  					int x = generator.nextInt(colorList.length - 1);
-  					ledARGB = Color.parseColor(colorList[x]);
-! 				} 
-  			}
-  		}
+!           	if(mRandomColor == 1) {
+! 			//Lets make this intresting...
+! 			Random generator = new Random();
+! 			int x = generator.nextInt(colorList.length - 1);
+! 			ledARGB = Color.parseColor(colorList[x]);
+! 		} else if(mPulseAllColor == 1) {
+! 			if(lastColor >= colorList.length)
+! 				lastColor = 1;
+! 
+! 			ledARGB = Color.parseColor(colorList[lastColor - 1]);
+! 			lastColor = lastColor + 1;
+! 		} else if(mBlendColor == 1) { // Blend lights: Credit to eshabtai for the application of this.
+  			ledARGB = 0;
+  			for (int n=0; n < mLights.size(); n++) {
+  				long pkgcolor = Color.parseColor("white");
+--- 1243,1251 ----
+                  	ledOffMS = mDefaultNotificationLedOff;
+              	}
   
+! 		String[] mPackageInfo;
+  
+! 		if(mBlendColor == 1) { // Blend lights: Credit to eshabtai for the application of this.
+  			ledARGB = 0;
+  			for (int n=0; n < mLights.size(); n++) {
+  				long pkgcolor = Color.parseColor("white");
