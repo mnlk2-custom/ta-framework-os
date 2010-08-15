@@ -1,0 +1,26 @@
+*** NotificationManagerService.java.orig	2010-08-15 14:31:27.969890036 +0100
+--- NotificationManagerService.java	2010-08-15 14:36:51.509890284 +0100
+***************
+*** 1250,1263 ****
+  					Random generator = new Random();
+  					int x = generator.nextInt(colorList.length - 1);
+  					ledARGB = Color.parseColor(colorList[x]);
+! 				} else {
+! 					ledARGB = Color.parseColor(mPackageInfo[1]);
+! 				}
+! 				if(mPackageInfo[2].equals(".5")) {
+! 					ledOffMS = 500;
+! 				} else {
+! 					ledOffMS = (Integer.parseInt(mPackageInfo[2]) * 1000);
+! 				}
+  			}
+  		}
+  
+--- 1250,1256 ----
+  					Random generator = new Random();
+  					int x = generator.nextInt(colorList.length - 1);
+  					ledARGB = Color.parseColor(colorList[x]);
+! 				} 
+  			}
+  		}
+  

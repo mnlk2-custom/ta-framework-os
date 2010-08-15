@@ -1,0 +1,44 @@
+                  Trackball Alert Open Source Frameworks
+
+Requirements
+~~~~~~~~~~~~
+
+	Trackball Alert Pro v1.2.3 or greater 
+	Trackball Alert v1.1.3i or greater
+
+Please include the Free version with your rom, making sure to maintain the Market link
+
+Compiling
+~~~~~~~~~
+
+The instructions are for aosp and adapt as required for CyanogenMOD, unless a specific CyanogenMOD instruction exists.
+
+	Step1. Pull the source from git://github.com/lilHermit/ta-framework-os.git
+		mkdir ~/github
+		cd ~/github
+		git clone git://github.com/lilHermit/ta-framework-os.git
+
+	Step2. Symlink the aidl and class file (Assumes aosp is in ~/github/aosp)
+		ln -s ~/github/ta-framework-os/base/core/java/uk ~/github/aosp/frameworks/base/core/java/
+		ln -s ~/github/ta-framework-os/base/core/java/android/app/TAnotification.java ~/github/aosp/frameworks/base/core/java/android/app/
+
+	Step3. Patch the NotificationManager
+		( cd ~/github/aosp/frameworks/base/core/java/android/app && patch < ~/github/ta-framework-os/base/core/java/android/app/NotificationManager.java-v3.aosp-patch )
+
+
+	Step4. Add the aidl file to frameworks/base/Android.mk
+		( cd ~/github/aosp/frameworks/base && patch < ~/github/ta-framework-os/base/Android.mk.patch )	
+
+	Step5. Patch the NotificationManagerService (Optional, this allows the trackball to flash when screen is off)
+		( cd ~/github/aosp/framework/base/services/java/com/android/server/ && patch < ~/github/ta-framework-os/base/services/java/com/android/server/NotificationManagerService.java.aosp-patch )
+
+
+CyanogenMOD 6-RC3 (or greater) Specific
+
+	Step3. Patch the NotificationManager
+		( cd ~/github/aosp/frameworks/base/core/java/android/app && patch < ~/github/ta-framework-os/base/core/java/android/app/NotificationManager.java-v3.cm6rc3-patch )
+
+
+	Step5. Patch the NotificationManagerService NOT OPTIONAL for CM6
+		( cd ~/github/aosp/framework/base/services/java/com/android/server/ && patch < ~/github/ta-framework-os/base/services/java/com/android/server/NotificationManagerService.java.cm6rc3-patch )
+
