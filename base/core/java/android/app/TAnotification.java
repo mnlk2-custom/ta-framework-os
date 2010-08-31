@@ -26,7 +26,7 @@ public class TAnotification
 	private iTAservice mTAservice = null;
 	private Context mContext;
 	Intent serviceIntent;
-	private final static int version = 20;
+	private final static int version = 21;
 	private final static String LOGTAG = "TAframework";
 	private final static int ACTION_NOTIFY 		=	0x01;
 	private final static int ACTION_CANCEL 		=	0x02;
@@ -90,8 +90,8 @@ public class TAnotification
 		{
 			if(!bound)
 			{
-				Bind();
 				queue.add(new queue_object(ACTION_NOTIFY, tag, id, notification));
+				Bind();
 			}
 			else
 			{
@@ -116,8 +116,8 @@ public class TAnotification
 		{
 			if(!bound)
 			{
-				Bind();
 				queue.add(new queue_object(ACTION_CANCEL, tag, id));
+				Bind();
 			}
 			else
 				Cancel(tag,id);
@@ -138,8 +138,8 @@ public class TAnotification
 		{
 			if(!bound)
 			{
-				Bind();
 				queue.add(new queue_object(ACTION_CANCEL_ALL));
+				Bind();
 			}
 			else
 				CancelAll();
