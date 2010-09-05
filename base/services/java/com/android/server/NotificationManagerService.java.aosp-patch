@@ -1,14 +1,50 @@
-108d107
-<     private boolean mScreenOn = true;
-360,364c359
-<             } else if (action.equals(Intent.ACTION_SCREEN_ON)) {
-<                 mScreenOn = true;
-<                 updateNotificationPulse();
-<             } else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
-<                 mScreenOn = false;
----
->             } else if (action.equals(Intent.ACTION_SCREEN_ON) || action.equals(Intent.ACTION_SCREEN_OFF)) {
-1073c1068
-<         if (mLedNotification == null || mScreenOn || mInCall) {
----
->         if (mLedNotification == null || mInCall) {
+*** NotificationManagerService.java.orig	2010-09-03 10:35:44.009843591 +0100
+--- NotificationManagerService.java	2010-09-03 10:43:06.699843543 +0100
+***************
+*** 105,111 ****
+      private Vibrator mVibrator = new Vibrator();
+  
+      // for enabling and disabling notification pulse behavior
+-     private boolean mScreenOn = true;
+      private boolean mInCall = false;
+      private boolean mNotificationPulseEnabled;
+  
+--- 105,110 ----
+***************
+*** 357,367 ****
+                          cancelAllNotificationsInt(pkgName, 0, 0, !queryRestart);
+                      }
+                  }
+!             } else if (action.equals(Intent.ACTION_SCREEN_ON)) {
+!                 mScreenOn = true;
+!                 updateNotificationPulse();
+!             } else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+!                 mScreenOn = false;
+                  updateNotificationPulse();
+              } else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+                  mInCall = (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_OFFHOOK));
+--- 356,362 ----
+                          cancelAllNotificationsInt(pkgName, 0, 0, !queryRestart);
+                      }
+                  }
+!             } else if (action.equals(Intent.ACTION_SCREEN_ON) || action.equals(Intent.ACTION_SCREEN_OFF)) {
+                  updateNotificationPulse();
+              } else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+                  mInCall = (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_OFFHOOK));
+***************
+*** 1081,1087 ****
+  
+          // we only flash if screen is off and persistent pulsing is enabled
+          // and we are not currently in a call
+!         if (mLedNotification == null || mScreenOn || mInCall) {
+              mNotificationLight.turnOff();
+          } else {
+              int ledARGB = mLedNotification.notification.ledARGB;
+--- 1076,1082 ----
+  
+          // we only flash if screen is off and persistent pulsing is enabled
+          // and we are not currently in a call
+!         if (mLedNotification == null || mInCall) {
+              mNotificationLight.turnOff();
+          } else {
+              int ledARGB = mLedNotification.notification.ledARGB;
