@@ -18,6 +18,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 import uk.co.lilhermit.android.TrackballAlert.service.iTAservice;
 
+/**
+@hide
+**/
 public class TAnotification
 {
 	private String _packagename;
