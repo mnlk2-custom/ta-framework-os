@@ -228,7 +228,7 @@ public class TAnotification
 		}
 	}
 
-	public void Cancel(String tag, int id)
+	private void Cancel(String tag, int id)
 	{
 		LogV(String.format("Cancel: - %s %d",_packagename,id));
 
@@ -243,7 +243,7 @@ public class TAnotification
 		}
 	}
 
-	public void CancelAll()
+	private void CancelAll()
 	{
 		LogV(String.format("CancelAll - %s",_packagename));
 		boolean localLOGV = false || android.util.Config.LOGV;
