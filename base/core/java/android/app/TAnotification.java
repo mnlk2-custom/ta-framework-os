@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.DeadObjectException;
 
 import uk.co.lilhermit.android.TrackballAlert.service.iTAservice;
 
@@ -29,7 +30,7 @@ public class TAnotification
 	private iTAservice mTAservice = null;
 	private Context mContext;
 	Intent serviceIntent;
-	private final static int version = 21;
+	private final static int version = 23;
 	private final static String LOGTAG = "TAframework";
 	private final static int ACTION_NOTIFY 		=	0x01;
 	private final static int ACTION_CANCEL 		=	0x02;
@@ -100,8 +101,12 @@ public class TAnotification
 			{
 				try {
 					notification = mTAservice.process_notification(notification,_packagename,id);
-				} catch (Exception e) {}
-				Notify(tag,id,notification); 
+					Notify(tag,id,notification); 
+				} catch (DeadObjectException e) {
+					bound = false;
+					queueNotify(tag, id, notification);
+				}
+				catch (Exception e2){}
 			}
 		}
 	}
