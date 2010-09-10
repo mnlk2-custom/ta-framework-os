@@ -37,7 +37,7 @@ public class TAnotification
 
 	private boolean connected = false;
 	private boolean bound = false;
-	private boolean waiting_bind = false;
+	private boolean bind_pending = false;
 	
 	final String ProPackageName = "uk.co.lilhermit.android.TrackballAlertPro";
 	final String FreePackageName = "uk.co.lilhermit.android.TrackballAlert";
@@ -158,10 +158,10 @@ public class TAnotification
 
 	private void Bind()
 	{
-		if(!waiting_bind)
+		if(!bind_pending)
 		{
+			bind_pending=true;
 			mContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);	
-			waiting_bind=true;
 		}
 	}
 
@@ -263,7 +263,7 @@ public class TAnotification
 
 			mTAservice = iTAservice.Stub.asInterface(service);
 			bound = true;
-			waiting_bind=false;
+			bind_pending=false;
 			process_queue();
 		}
 
