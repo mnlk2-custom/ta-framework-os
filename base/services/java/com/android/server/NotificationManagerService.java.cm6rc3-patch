@@ -1,7 +1,17 @@
-*** NotificationManagerService.java.orig	2010-08-15 14:31:27.969890036 +0100
---- NotificationManagerService.java	2010-08-15 15:49:35.080734906 +0100
+*** NotificationManagerService.java.orig	2010-08-28 14:04:25.435643825 +0100
+--- NotificationManagerService.java	2010-09-13 00:56:25.797377109 +0100
 ***************
-*** 1243,1298 ****
+*** 880,885 ****
+--- 880,886 ----
+  	boolean flashLight = true;
+  	if(((notification.flags & Notification.FLAG_ONGOING_EVENT) != 0)
+  	|| ((notification.flags & Notification.FLAG_FOREGROUND_SERVICE) != 0)
++ 	|| ((notification.flags & Notification.FLAG_SHOW_LIGHTS) == 0)
+  	|| pkg.matches("android") ) {
+          	flashLight = false;
+          } else if(mPackage != null) {
+***************
+*** 1244,1299 ****
                   	ledOffMS = mDefaultNotificationLedOff;
               	}
   
@@ -58,4 +68,4 @@
               	if (mNotificationPulseEnabled) {
                  	// pulse repeatedly
              	 	if((mSuccession == 1) || (mRandomColor == 1) || (mPulseAllColor == 1)) {
---- 1243,1248 ----
+--- 1245,1250 ----
