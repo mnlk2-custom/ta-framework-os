@@ -18,9 +18,8 @@ The instructions are for aosp and adapt as required for CyanogenMOD, unless a sp
 		cd ~/github
 		git clone git://github.com/lilHermit/ta-framework-os.git
 
-	Step2. Symlink the aidl and class file (Assumes aosp is in ~/github/aosp)
-		ln -s ~/github/ta-framework-os/base/core/java/uk ~/github/aosp/frameworks/base/core/java/
-		ln -s ~/github/ta-framework-os/base/core/java/android/app/TAnotification.java ~/github/aosp/frameworks/base/core/java/android/app/
+	Step2. Copy the aidl and class file (Assumes aosp is in ~/github/aosp)
+		cp -r ~/github/ta-framework-os/base/core/java/uk ~/github/aosp/frameworks/base/core/java/
 
 	Step3. Patch the NotificationManager
 		( cd ~/github/aosp/frameworks/base/core/java/android/app && patch < ~/github/ta-framework-os/base/core/java/android/app/NotificationManager.java-v3.aosp-patch )
