@@ -1,0 +1,12 @@
+*** Android.mk.orig	2011-03-10 22:37:53.296049998 +0000
+--- Android.mk	2011-03-10 22:38:05.626049999 +0000
+***************
+*** 83,88 ****
+--- 83,89 ----
+  	core/java/android/app/IBackupAgent.aidl \
+  	core/java/android/app/IInstrumentationWatcher.aidl \
+  	core/java/android/app/INotificationManager.aidl \
++ 	core/java/uk/co/lilhermit/android/TrackballAlert/service/iTAservice.aidl \
+  	core/java/android/app/ISearchManager.aidl \
+  	core/java/android/app/ISearchManagerCallback.aidl \
+  	core/java/android/app/IServiceConnection.aidl \

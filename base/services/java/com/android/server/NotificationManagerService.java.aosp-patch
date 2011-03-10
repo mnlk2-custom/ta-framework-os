@@ -1,17 +1,17 @@
-*** NotificationManagerService.java.orig	2010-09-03 10:35:44.009843591 +0100
---- NotificationManagerService.java	2010-09-03 10:43:06.699843543 +0100
+*** NotificationManagerService.java.orig	2010-12-21 19:55:30.828422930 +0000
+--- NotificationManagerService.java	2011-03-10 22:50:02.556050010 +0000
 ***************
-*** 105,111 ****
+*** 109,115 ****
       private Vibrator mVibrator = new Vibrator();
   
       // for enabling and disabling notification pulse behavior
 -     private boolean mScreenOn = true;
       private boolean mInCall = false;
       private boolean mNotificationPulseEnabled;
-  
---- 105,110 ----
+      // This is true if we have received a new notification while the screen is off
+--- 109,114 ----
 ***************
-*** 357,367 ****
+*** 385,395 ****
                           cancelAllNotificationsInt(pkgName, 0, 0, !queryRestart);
                       }
                   }
@@ -23,7 +23,7 @@
                   updateNotificationPulse();
               } else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
                   mInCall = (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_OFFHOOK));
---- 356,362 ----
+--- 384,390 ----
                           cancelAllNotificationsInt(pkgName, 0, 0, !queryRestart);
                       }
                   }
@@ -32,19 +32,50 @@
               } else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
                   mInCall = (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_OFFHOOK));
 ***************
-*** 1081,1087 ****
+*** 1095,1101 ****
+          }
+  
+          // clear pending pulse notification if screen is on
+!         if (mScreenOn || mLedNotification == null) {
+              mPendingPulseNotification = false;
+          }
+  
+--- 1090,1096 ----
+          }
+  
+          // clear pending pulse notification if screen is on
+!         if (mLedNotification == null) {
+              mPendingPulseNotification = false;
+          }
+  
+***************
+*** 1106,1119 ****
+              if (n > 0) {
+                  mLedNotification = mLights.get(n-1);
+              }
+!             if (mLedNotification != null && !mScreenOn) {
+                  mPendingPulseNotification = true;
+              }
+          }
   
           // we only flash if screen is off and persistent pulsing is enabled
           // and we are not currently in a call
-!         if (mLedNotification == null || mScreenOn || mInCall) {
+!         if (!mPendingPulseNotification || mScreenOn || mInCall) {
               mNotificationLight.turnOff();
           } else {
               int ledARGB = mLedNotification.notification.ledARGB;
---- 1076,1082 ----
+--- 1101,1114 ----
+              if (n > 0) {
+                  mLedNotification = mLights.get(n-1);
+              }
+!             if (mLedNotification != null ) {
+                  mPendingPulseNotification = true;
+              }
+          }
   
           // we only flash if screen is off and persistent pulsing is enabled
           // and we are not currently in a call
-!         if (mLedNotification == null || mInCall) {
+!         if (!mPendingPulseNotification || mInCall) {
               mNotificationLight.turnOff();
           } else {
               int ledARGB = mLedNotification.notification.ledARGB;
