@@ -28,7 +28,7 @@ The instructions are for aosp and adapt as required for CyanogenMOD, unless a sp
 		( cd ~/github/aosp/frameworks/base && patch < ~/github/ta-framework-os/base/Android.mk.aosp-patch ) 
 
 	Step5. Patch the NotificationManagerService (Optional, this allows the trackball to flash when screen is off)
-		( cd ~/github/aosp/framework/base/services/java/com/android/server/ && patch < ~/github/ta-framework-os/base/services/java/com/android/server/NotificationManagerService.java.aosp-patch )
+		( cd ~/github/aosp/frameworks/base/services/java/com/android/server/ && patch < ~/github/ta-framework-os/base/services/java/com/android/server/NotificationManagerService.java.aosp-patch )
 
 
 CyanogenMOD 6-RC3 (or greater) Specific
